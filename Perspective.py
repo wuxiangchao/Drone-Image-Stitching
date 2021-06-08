@@ -4,7 +4,7 @@ import glob
 
 def changePerspective(imageList, dataMatrix):
 
-    images = sorted(glob.glob("temp/*.png"))
+    images = sorted(glob.glob("temp/*.jpg"))
     print ("Warping Perspective of Images Now")
 
     for i in range(0,len(images)):
@@ -14,6 +14,6 @@ def changePerspective(imageList, dataMatrix):
         M = gm.computeUnRotMatrix(dataMatrix[i,:])
         correctedImage = gm.warpPerspectiveWithPadding(image,M)
 
-        cv2.imwrite("temp/" + str(i).zfill(4) + ".png", correctedImage)
+        cv2.imwrite("temp/" + str(i).zfill(4) + ".jpg", correctedImage)
 
-    print ("Done Warping Perspective")
+    print("Done Warping Perspective")

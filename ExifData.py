@@ -30,6 +30,14 @@ def _get_if_exist(data, key):
 
     return None
 
+def price_encode(price):
+    price_split = str(price).split('.')
+    price_decimal = 0
+    if len(price_split) > 1:
+        price = '%s%s' % (price_split[0], price_split[1])
+        price_decimal = len(price_split[1].strip())
+    return int(price), int(price_decimal)
+
 def _convert_to_degress(value):
     """
     Helper function to convert the GPS coordinates stored in the EXIF to degress in float format

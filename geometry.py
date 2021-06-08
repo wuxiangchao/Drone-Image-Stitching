@@ -8,9 +8,9 @@ def computeUnRotMatrix(pose):
     :param pose: A 1x6 NumPy ndArray containing pose information in [X,Y,Z,Y,P,R] format
     :return: A 3x3 rotation matrix that removes perspective distortion from the image to which it is applied.
     '''
-    a = pose[3]*np.pi/180 #alpha
-    b = pose[4]*np.pi/180 #beta
-    g = pose[5]*np.pi/180 #gamma
+    a = pose[3]*np.pi/180 #alpha yaw
+    b = pose[4]*np.pi/180 #beta  pitch
+    g = pose[5]*np.pi/180 #gamma roll
     #Compute R matrix according to source.
     Rz = np.array(([m.cos(a), -1*m.sin(a),    0],
                    [m.sin(a),    m.cos(a),    0],
@@ -37,7 +37,8 @@ def computeUnRotMatrix(pose):
 def warpPerspectiveWithPadding(image,transformation):
     '''
     When we warp an image, its corners may be outside of the bounds of the original image. This function creates a new image that ensures this won't happen.
-    :param image: ndArray image
+    :param image: ndAr0.
+    ray image
     :param transformation: 3x3 ndArray representing perspective trransformation
     :param kp: keypoints associated with image
     :return: transformed image
@@ -52,6 +53,6 @@ def warpPerspectiveWithPadding(image,transformation):
     [xMax, yMax] = np.int32(warpedCorners.max(axis=0).ravel() + 0.5)
     translation = np.array(([1,0,-1*xMin],[0,1,-1*yMin],[0,0,1])) #must translate image so that all of it is visible
     fullTransformation = np.dot(translation,transformation) #compose warp and translation in correct order
-    result = cv2.warpPerspective(image, fullTransformation, (xMax-xMin, yMax-yMin))
+    result = cv2.warpPerspective(image, fullTransformation, (xMax-xMin, yMax-yMin),borderMode=cv2.BORDER_CONSTANT,borderValue=(0, 0, 0,0))
 
     return result

@@ -4,9 +4,10 @@ import CombinePair
 import JPEGEncoder as en
 
 def combine():
-    imagelist = sorted(glob.glob("temp/*.png"))
+    imagelist = sorted(glob.glob("temp/*.jpg"))
 
     result = en.compress(cv2.imread(imagelist[0]))
+    #detector = cv2.xfeatures2d_SIFT.create()
     detector = cv2.xfeatures2d.SURF_create(300)
 
     for i in range(1, len(imagelist)):
@@ -14,10 +15,11 @@ def combine():
 
         try:
             result = CombinePair.combine(result, image, detector)
-            cv2.imwrite("results/int_res" + str(i) + ".png", result)
+            cv2.imwrite("results/int_res" + str(i) + ".jpg", result)
             print ("Stitched " + str(i + 1) + " Images")
 
-        except:
+        except Exception as e:
+            print(e)
             print ("Fail " + str(i))
             #cv2.imwrite("results/int_res" + str(i) + ".JPG", result)
 

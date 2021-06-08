@@ -14,9 +14,8 @@ def importData(fileName, imageDirectory):
     dataMatrix = np.genfromtxt(fileName,delimiter=",",usecols=range(1,7),dtype=float) #read numerical data
     fileNameMatrix = np.genfromtxt(fileName,delimiter=",",usecols=[0],dtype=str) #read filen name strings
     for i in range(0,fileNameMatrix.shape[0]): #read images
-
-        #allImages.append(cv2.imread(imageDirectory+fileNameMatrix[i]))
-        cv2.imwrite("temp/" + str(i).zfill(4) + ".png", cv2.imread(imageDirectory+fileNameMatrix[i]))
+        allImages.append(cv2.imread(imageDirectory+fileNameMatrix[i]))
+        cv2.imwrite("temp/" + str(i).zfill(4) + ".jpg", cv2.imread(imageDirectory+fileNameMatrix[i]))
 
     return allImages, dataMatrix
 
@@ -74,6 +73,7 @@ def drawMatches(img1, kp1, img2, kp2, matches):
         thickness = 3
         color = (255,0,0) #blue
         cv2.circle(out, (int(x1),int(y1)), radius, color, thickness)
+       
         cv2.circle(out, (int(x2)+cols1,int(y2)), radius, color, thickness)
 
         # Draw a line in between the two points
